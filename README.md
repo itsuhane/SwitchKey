@@ -10,21 +10,39 @@ SwitchKey can automatically activate your choice for you.
 ### Download & Install
 
 [Version 1.0](https://github.com/itsuhane/SwitchKey/releases/download/v1.0/SwitchKey.zip) (macOS)  
-uncompress, then drag & drop into your Applications folder.
+Uncompress, then drag & drop into your Applications folder.
 
 ### Usage
 
 ![switchkey-ui](README.assets/switchkey-ui.png)
 
-- save current input source choice for frontmost application:  
+- Save current input source choice for frontmost application:  
   click "Add Current".
 
-- enable/disable automatic switch for saved application:  
+- Enable/disable automatic switch for saved application:  
   check/uncheck the checkbox on the right.
 
-- remove saved choice:  
+- Remove saved choice:  
   select the one to be deleted, then press delete key.
+
+Not working? See below.
+
+### First Run
+
+Upon first launch, SwitchKey will ask for accessibility permission.  
+SwitchKey will open accessibility page, **and exit**.  
+After you grant permission, re-launch SwitchKey again.  
+The same will happen if you reject the permission later.
+
+![switchkey-ui](README.assets/switchkey-permission.png)
+
+### Purchase
+
+I wrote this because I tried some other tools.  
+They are either buggy or too cumbersome to configure.  
+I payed money and time for them.  
+So you don't have to pay for them anymore.
 
 ### Bug Report & Feature Request
 
-welcome! please click [here](https://github.com/itsuhane/SwitchKey/issues/new).
+Welcome! Please click [here](https://github.com/itsuhane/SwitchKey/issues/new).
