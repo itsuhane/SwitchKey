@@ -9,7 +9,7 @@ SwitchKey can automatically activate your choice for you.
 
 ### Download & Install
 
-[Version 1.1](https://github.com/itsuhane/SwitchKey/releases/download/v1.1/SwitchKey.zip) (macOS)  
+[Version 1.1.1](https://github.com/itsuhane/SwitchKey/releases/download/v1.1.1/SwitchKey.zip) (macOS)  
 Uncompress, then drag & drop into your Applications folder.
 
 ### Usage
