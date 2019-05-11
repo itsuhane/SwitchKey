@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  AppDelegate
+//  SwitchKey
 //
 //  Created by Jinyu Li on 2019/03/16.
 //  Copyright © 2019 Jinyu Li. All rights reserved.
@@ -178,8 +178,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTab
 
                 let element = AXUIElementCreateApplication(pid)
                 let selfPtr = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
-                AXObserverAddNotification(observer, element, kAXApplicationActivatedNotification as CFString, selfPtr)
-
+                AXObserverAddNotification(observer, element, NSAccessibility.Notification.applicationActivated.rawValue as CFString, selfPtr)
                 applicationObservers[pid] = observer
             }
         }
@@ -273,8 +272,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTab
             let itemCell = conditionTableView.makeView(withIdentifier: itemCellIdentifier, owner: nil) as! ConditionCell
             itemCell.appIcon.image = item.applicationIcon
             itemCell.appName.stringValue = item.applicationName
-            itemCell.inputSourceButton.image = item.inputSourceIcon
-            itemCell.inputSourceButton.image?.isTemplate = true
+            
+            let icon = item.inputSourceIcon
+            itemCell.inputSourceButton.image = icon
+            itemCell.inputSourceButton.image?.isTemplate = icon.canTemplate()
+            
             itemCell.conditionEnabled.state = item.enabled ? .on : .off
             return itemCell
         } else {

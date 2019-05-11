@@ -10,6 +10,7 @@
 		7115A91622631E6A00DD386A /* InputSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 7115A91522631E6A00DD386A /* InputSource.m */; };
 		716404EE226A0FFB00E0F0A1 /* LoginServiceKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716404ED226A0FFB00E0F0A1 /* LoginServiceKit.swift */; };
 		717050D4226204DE008A2686 /* SwitchKey.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 717050D3226204DE008A2686 /* SwitchKey.xcassets */; };
+		718A6EDF2285333700DB6B05 /* NSImage+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 718A6EDE2285333700DB6B05 /* NSImage+extensions.swift */; };
 		71FECF2E22610BE600C51FD7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71FECF2D22610BE600C51FD7 /* AppDelegate.swift */; };
 		71FECF3322610BE600C51FD7 /* SwitchKey.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71FECF3122610BE600C51FD7 /* SwitchKey.xib */; };
 /* End PBXBuildFile section */
@@ -20,6 +21,7 @@
 		7115A91522631E6A00DD386A /* InputSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InputSource.m; sourceTree = "<group>"; };
 		716404ED226A0FFB00E0F0A1 /* LoginServiceKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginServiceKit.swift; sourceTree = "<group>"; };
 		717050D3226204DE008A2686 /* SwitchKey.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = SwitchKey.xcassets; sourceTree = "<group>"; };
+		718A6EDE2285333700DB6B05 /* NSImage+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage+extensions.swift"; sourceTree = "<group>"; };
 		71FECF2A22610BE600C51FD7 /* SwitchKey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwitchKey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		71FECF2D22610BE600C51FD7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		71FECF3222610BE600C51FD7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SwitchKey.xib; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 				7115A91522631E6A00DD386A /* InputSource.m */,
 				7115A91322631E6A00DD386A /* SwitchKey-Bridging-Header.h */,
 				716404ED226A0FFB00E0F0A1 /* LoginServiceKit.swift */,
+				718A6EDE2285333700DB6B05 /* NSImage+extensions.swift */,
 			);
 			path = SwitchKey;
 			sourceTree = "<group>";
@@ -148,6 +151,7 @@
 			files = (
 				71FECF2E22610BE600C51FD7 /* AppDelegate.swift in Sources */,
 				716404EE226A0FFB00E0F0A1 /* LoginServiceKit.swift in Sources */,
+				718A6EDF2285333700DB6B05 /* NSImage+extensions.swift in Sources */,
 				7115A91622631E6A00DD386A /* InputSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
