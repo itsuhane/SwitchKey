@@ -14,7 +14,7 @@ Uncompress, then drag & drop into your Applications folder.
 
 ### Install With Homebrew
 
-SwitchKey is also available from Homebrew-Cask (thanks to @fanvinga):
+SwitchKey is also available from Homebrew-Cask (thanks to [@fanvinga](//github.com/fanvinga/)):
 
 ```
 brew cask install switchkey
