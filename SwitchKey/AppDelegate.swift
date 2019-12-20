@@ -296,7 +296,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTab
         if row > 0 {
             return 64
         } else {
-            return 19
+            return 40
         }
     }
 
