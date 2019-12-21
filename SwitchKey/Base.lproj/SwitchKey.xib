@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15702" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15702"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -12,7 +13,7 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="context" customModuleProvider="target">
+        <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="SwitchKey" customModuleProvider="target">
             <connections>
                 <outlet property="conditionTableView" destination="wpb-1K-Xeg" id="lF5-0a-jaC"/>
                 <outlet property="statusBarMenu" destination="lcZ-64-V4h" id="lFV-82-qrX"/>
@@ -27,18 +28,18 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <clipView key="contentView" id="gGO-yu-YCr">
                 <rect key="frame" x="1" y="1" width="360" height="0.0"/>
-                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="wpb-1K-Xeg" customClass="TableView" customModule="context" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="360" height="1"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                    <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowSizeStyle="automatic" viewBased="YES" id="wpb-1K-Xeg" customClass="TableView" customModule="SwitchKey" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="360" height="0.0"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <size key="intercellSpacing" width="3" height="2"/>
                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                         <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                         <tableColumns>
                             <tableColumn width="357" minWidth="40" maxWidth="1000" id="Y12-MF-ZTz">
                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
-                                    <font key="font" metaFont="smallSystem"/>
+                                    <font key="font" metaFont="menu" size="11"/>
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                 </tableHeaderCell>
@@ -63,7 +64,7 @@
             </scroller>
             <point key="canvasLocation" x="139" y="185"/>
         </scrollView>
-        <tableCellView identifier="item-cell" id="mER-eV-t2b" customClass="ConditionCell" customModule="context" customModuleProvider="target">
+        <tableCellView identifier="item-cell" id="mER-eV-t2b" customClass="ConditionCell" customModule="SwitchKey" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="341" height="64"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -76,7 +77,7 @@
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSApplicationIcon" id="pGI-gj-dvK"/>
                 </imageView>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="61R-Cm-pCP">
-                    <rect key="frame" x="62" y="24" width="68" height="17"/>
+                    <rect key="frame" x="62" y="24" width="68" height="16"/>
                     <textFieldCell key="cell" lineBreakMode="clipping" title="AppName" id="AGL-f7-fn1">
                         <font key="font" metaFont="systemBold"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -128,18 +129,18 @@
             </connections>
             <point key="canvasLocation" x="139.5" y="260"/>
         </tableCellView>
-        <tableCellView identifier="edit-cell" id="tGE-D6-w3H" customClass="EditCell" customModule="context" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="97" height="20"/>
+        <tableCellView identifier="edit-cell" id="tGE-D6-w3H" customClass="EditCell" customModule="SwitchKey" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="109" height="20"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5k7-2A-D1v">
-                    <rect key="frame" x="8" y="3" width="81" height="14"/>
+                    <rect key="frame" x="8" y="-1" width="93" height="21"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="13" id="IDr-fh-azF"/>
+                        <constraint firstAttribute="height" constant="20" id="IDr-fh-azF"/>
                     </constraints>
-                    <buttonCell key="cell" type="inline" title="Add Current" bezelStyle="inline" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="XiT-Jr-Qlg">
+                    <buttonCell key="cell" type="roundTextured" title="Add Current" bezelStyle="texturedRounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="XiT-Jr-Qlg">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="smallSystemBold"/>
+                        <font key="font" metaFont="systemBold"/>
                         <connections>
                             <action selector="addItemClicked:" target="tGE-D6-w3H" id="1xs-Ii-GnG"/>
                         </connections>
