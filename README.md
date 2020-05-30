@@ -7,14 +7,14 @@ Automatically use the correct input source.
 Ever hassled by wrong input source when switching application?  
 SwitchKey can automatically activate your choice for you.
 
-### Download & Install (Manaual)
+### Download & Install
 
-[Version 1.1.2](https://github.com/itsuhane/SwitchKey/releases/download/v1.1.2/SwitchKey.zip) (macOS)  
+- Manually:
+
+Download: [![Latest](https://img.shields.io/badge/dynamic/json?color=brightgreen&label=latest&query=%24.tag_name&url=https%3A%2F%2Fapi.github.com%2Frepos%2Fitsuhane%2FSwitchKey%2Freleases%2Flatest&style=social)](https://github.com/itsuhane/SwitchKey/releases/latest/download/SwitchKey.zip) (macOS)  
 Uncompress, then drag & drop into your Applications folder.
 
-### Install With Homebrew
-
-SwitchKey is also available from Homebrew-Cask (thanks to [@fanvinga](//github.com/fanvinga/)):
+- Via Homebrew (thanks to [@fanvinga](//github.com/fanvinga/)):
 
 ```
 brew cask install switchkey
