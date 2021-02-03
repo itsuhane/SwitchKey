@@ -46,9 +46,10 @@ private func askForAccessibilityPermission() {
         NSApplication.shared.terminate(nil)
     }
 }
-
+//MARK:- AppDelegate
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTableViewDelegate {
+    //MARK:- View
     @IBOutlet weak var statusBarMenu: NSMenu!
     @IBOutlet weak var conditionTableView: TableView! {
         didSet {
@@ -57,7 +58,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTab
             conditionTableView.register(NSNib(nibNamed: "SwitchKey", bundle: nil), forIdentifier: editCellIdentifier)
         }
     }
-
+    //MARK:- Property
     private var applicationObservers:[pid_t:AXObserver] = [:]
     private var currentPid:pid_t = getpid()
 
@@ -65,7 +66,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTab
 
     private var statusBarItem: NSStatusItem!
     private var launchAtStartupItem: NSMenuItem!
-
+    //MARK:- Life Cycle
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         if !hasAccessibilityPermission() {
             askForAccessibilityPermission()
@@ -112,29 +113,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTab
             CFRunLoopRemoveSource(RunLoop.current.getCFRunLoop(), AXObserverGetRunLoopSource(observer), .defaultMode)
         }
     }
-
-    fileprivate func applicationSwitched() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            if let application = NSWorkspace.shared.frontmostApplication {
-                let switchedPid:pid_t = application.processIdentifier
-                if (switchedPid != self.currentPid && switchedPid != getpid()) {
-                    for condition in self.conditionItems {
-                        if !condition.enabled {
-                            continue
-                        }
-                        if condition.applicationIdentifier == application.bundleIdentifier {
-                            if let inputSource = InputSource.with(condition.inputSourceID) {
-                                inputSource.activate()
-                            }
-                            break
-                        }
-                    }
-                    self.currentPid = switchedPid
-                }
-            }
-        }
-    }
-
+    
+    //MARK:- Target Action
     @objc private func menuDidEndTracking(_ notification: Notification) {
         conditionTableView.selectRowIndexes([], byExtendingSelection: false)
     }
@@ -167,6 +147,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTab
         }
     }
 
+    //MARK:- Private Method
+    //❤️
     private func registerForAppSwitchNotification(_ pid: pid_t) {
         if pid != getpid() {
             if applicationObservers[pid] == nil {
@@ -180,6 +162,28 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTab
                 let selfPtr = UnsafeMutableRawPointer(Unmanaged.passUnretained(self).toOpaque())
                 AXObserverAddNotification(observer, element, NSAccessibility.Notification.applicationActivated.rawValue as CFString, selfPtr)
                 applicationObservers[pid] = observer
+            }
+        }
+    }
+    
+    fileprivate func applicationSwitched() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            if let application = NSWorkspace.shared.frontmostApplication {
+                let switchedPid:pid_t = application.processIdentifier
+                if (switchedPid != self.currentPid && switchedPid != getpid()) {
+                    for condition in self.conditionItems {
+                        if !condition.enabled {
+                            continue
+                        }
+                        if condition.applicationIdentifier == application.bundleIdentifier {
+                            if let inputSource = InputSource.with(condition.inputSourceID) {
+                                inputSource.activate()
+                            }
+                            break
+                        }
+                    }
+                    self.currentPid = switchedPid
+                }
             }
         }
     }
@@ -265,7 +269,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTab
             saveConditions()
         }
     }
-
+    //MARK:- TableView DataSource & Delegate
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if row > 0 {
             let item = conditionItems[row - 1]

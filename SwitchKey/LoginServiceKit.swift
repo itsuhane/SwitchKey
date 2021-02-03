@@ -55,7 +55,7 @@ public extension LoginServiceKit {
     
     @discardableResult
     static func addLoginItems(at path: String = Bundle.main.bundlePath) -> Bool {
-        guard !isExistLoginItems(at: path) else { return false }
+        guard !isExistLoginItems(at:  path) else { return false }
         
         guard let sharedFileList = LSSharedFileListCreate(nil, kLSSharedFileListSessionLoginItems.takeRetainedValue(), nil) else { return false }
         let loginItemList = sharedFileList.takeRetainedValue()
