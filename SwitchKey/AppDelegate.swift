@@ -270,6 +270,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTab
         }
     }
     //MARK:- TableView DataSource & Delegate
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        return conditionItems.count + 1
+    }
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         if row > 0 {
             let item = conditionItems[row - 1]
@@ -296,13 +299,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTab
         }
     }
 
-    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        if row > 0 {
-            return 64
-        } else {
-            return 24
-        }
-    }
+//    func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
+//        if row > 0 {
+//            return 64
+//        } else {
+//            return 24
+//        }
+//    }
 
     func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
         let view = TableRowView()
@@ -310,9 +313,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTab
         return view
     }
 
-    func numberOfRows(in tableView: NSTableView) -> Int {
-        return conditionItems.count + 1
-    }
+    
 }
 
 class TableView: NSTableView {
