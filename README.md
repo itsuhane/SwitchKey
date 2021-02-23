@@ -18,7 +18,7 @@ Uncompress, then drag & drop into your Applications folder.
 ### Via Homebrew (thanks to [@fanvinga](//github.com/fanvinga/)):
 
 ```
-brew cask install switchkey
+brew install --cask switchkey
 ```
 
 ### Usage
