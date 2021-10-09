@@ -16,6 +16,7 @@ extension Notification.Name {
 
 private let itemCellIdentifier = NSUserInterfaceItemIdentifier("item-cell")
 private let editCellIdentifier = NSUserInterfaceItemIdentifier("edit-cell")
+private let defaultCellIdentifier = NSUserInterfaceItemIdentifier("default-cell")
 
 private func applicationSwitchedCallback(_ axObserver: AXObserver, axElement: AXUIElement, notification: CFString, userData: UnsafeMutableRawPointer?) {
     if let userData = userData {
@@ -55,6 +56,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTab
             conditionTableView.appDelegate = self
             conditionTableView.register(NSNib(nibNamed: "SwitchKey", bundle: nil), forIdentifier: itemCellIdentifier)
             conditionTableView.register(NSNib(nibNamed: "SwitchKey", bundle: nil), forIdentifier: editCellIdentifier)
+            conditionTableView.register(NSNib(nibNamed: "SwitchKey", bundle: nil), forIdentifier: defaultCellIdentifier)
         }
     }
 
@@ -62,6 +64,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTab
     private var currentPid:pid_t = getpid()
 
     private var conditionItems: [ConditionItem] = []
+    private var defaultCondition : ConditionItem = ConditionItem()
 
     private var statusBarItem: NSStatusItem!
     private var launchAtStartupItem: NSMenuItem!
@@ -116,6 +119,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTab
     fileprivate func applicationSwitched() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             if let application = NSWorkspace.shared.frontmostApplication {
+                var unMatched = true
                 let switchedPid:pid_t = application.processIdentifier
                 if (switchedPid != self.currentPid && switchedPid != getpid()) {
                     for condition in self.conditionItems {
@@ -125,8 +129,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTab
                         if condition.applicationIdentifier == application.bundleIdentifier {
                             if let inputSource = InputSource.with(condition.inputSourceID) {
                                 inputSource.activate()
+                                unMatched = false
                             }
                             break
+                        }
+                    }
+                    if unMatched && self.defaultCondition.inputSourceID != "" && self.defaultCondition.enabled == true {
+                        if let inputSource = InputSource.with(self.defaultCondition.inputSourceID) {
+                            inputSource.activate()
                         }
                     }
                     self.currentPid = switchedPid
@@ -186,7 +196,20 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTab
 
     func loadConditions() {
         if let conditions = UserDefaults.standard.array(forKey: "Conditions") as? [[String:Any]] {
+            defer {
+                conditionTableView.reloadData()
+            }
             for c in conditions {
+                if c["IsDefault"] != nil && c["IsDefault"] as! Bool == true {
+                    if let inputSource = InputSource.with(c["InputSourceID"] as! String) {
+                        defaultCondition.inputSourceID = inputSource.inputSourceID();
+                        defaultCondition.inputSourceIcon = inputSource.icon()
+                        if c["Enabled"] != nil {
+                            defaultCondition.enabled = c["Enabled"] as! Bool
+                        }
+                    }
+                    continue
+                }
                 let conditionItem = ConditionItem()
                 if let inputSource = InputSource.with(c["InputSourceID"] as! String) {
                     conditionItem.applicationIdentifier = c["ApplicationIdentifier"] as! String
@@ -217,7 +240,24 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTab
 
             conditions.append(c)
         }
+        var defaultC = [String:Any]()
+        defaultC["IsDefault"] = true
+        defaultC["InputSourceID"] = defaultCondition.inputSourceID
+        defaultC["Enabled"] = defaultCondition.enabled
+        conditions.append(defaultC)
+        
         UserDefaults.standard.set(conditions, forKey: "Conditions")
+    }
+    
+    func setDefaultCondition() {
+        defer {
+            conditionTableView.reloadData()
+            saveConditions()
+        }
+        let inputSource = InputSource.current()
+        defaultCondition.inputSourceID = inputSource.inputSourceID()
+        defaultCondition.inputSourceIcon = inputSource.icon()
+        defaultCondition.enabled = true
     }
 
     func addCondition() {
@@ -259,16 +299,32 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTab
     }
 
     func removeCondition(row: Int) {
-        if row > 0 {
-            conditionItems.remove(at: row - 1)
+        if row > 2 {
+            conditionItems.remove(at: row - 3)
             conditionTableView.reloadData()
             saveConditions()
         }
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        if row > 0 {
-            let item = conditionItems[row - 1]
+        if row == 0 {
+            return conditionTableView.makeView(withIdentifier: editCellIdentifier, owner: nil)
+        } else if row == 1 {
+            return conditionTableView.makeView(withIdentifier: defaultCellIdentifier, owner: nil)
+        } else if row == 2 {
+            let itemCell = conditionTableView.makeView(withIdentifier: itemCellIdentifier, owner: nil) as! ConditionCell
+            
+            let icon = defaultCondition.inputSourceIcon
+            itemCell.appName.stringValue = "Default"
+            itemCell.appIcon.image = NSImage()
+            
+            itemCell.inputSourceButton.image = icon
+            itemCell.inputSourceButton.image?.isTemplate = icon.canTemplate()
+            
+            itemCell.conditionEnabled.state = defaultCondition.enabled ? .on : .off
+            return itemCell
+        } else {
+            let item = conditionItems[row - 3]
             let itemCell = conditionTableView.makeView(withIdentifier: itemCellIdentifier, owner: nil) as! ConditionCell
             itemCell.appIcon.image = item.applicationIcon
             itemCell.appName.stringValue = item.applicationName
@@ -279,21 +335,21 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTab
             
             itemCell.conditionEnabled.state = item.enabled ? .on : .off
             return itemCell
-        } else {
-            return conditionTableView.makeView(withIdentifier: editCellIdentifier, owner: nil)
         }
     }
 
     func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-        if row > 0 {
-            return conditionItems[row - 1]
+        if row == 2 {
+            return defaultCondition
+        } else if row > 2 {
+            return conditionItems[row - 3]
         } else {
             return self
         }
     }
 
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        if row > 0 {
+        if row > 1 {
             return 64
         } else {
             return 24
@@ -302,12 +358,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSTableViewDataSource, NSTab
 
     func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
         let view = TableRowView()
-        view.highlight = row > 0
+        view.highlight = row > 1
         return view
     }
 
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return conditionItems.count + 1
+        return conditionItems.count + 3
     }
 }
 
@@ -371,5 +427,12 @@ class EditCell: NSTableCellView {
     @IBAction func addItemClicked(_ sender: Any) {
         let app = objectValue as! AppDelegate
         app.addCondition()
+    }
+}
+
+class DefaultCell: NSTableCellView {
+    @IBAction func addItemClicked(_ sender: Any) {
+        let app = objectValue as! AppDelegate
+        app.setDefaultCondition()
     }
 }
