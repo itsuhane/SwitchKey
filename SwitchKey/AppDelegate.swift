@@ -436,3 +436,10 @@ class DefaultCell: NSTableCellView {
         app.setDefaultCondition()
     }
 }
+
+extension String {
+subscript(to: Int) -> String {
+        let index = self.index(self.startIndex, offsetBy: to)
+        return String(self[..<index])
+    }
+}
